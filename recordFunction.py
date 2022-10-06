@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 
 
-def record(file_name, duration = 10, fs = 44100):
+def record(file_name, duration = 5, fs = 44100):
     ''' Will record audio as wave file'''
     
     
@@ -38,22 +38,39 @@ def record(file_name, duration = 10, fs = 44100):
         
         print(file_name, "has been created!")
         
+def basicPlot(file_name):
+    
+    Fs, audio = wavefile.read(file_name)
+    
+    
+    time = np.linspace(0, len(audio) / Fs, num=len(audio))
+    
+    
+    plt.plot(time, audio)
+    plt.ylabel("Amplitude")
+    plt.xlabel("Time (seconds)")
+    plt.show()
+        
        
 def spectrogram(file_name):
     ''' Will display a wav file as a spectrogram'''
     
-    Fs, aud = wavefile.read(file_name)
-    powerSpectrum, frequenciesFound, time, imageAxis = plt.specgram(aud, Fs=Fs)
+    Fs, audio = wavefile.read(file_name)
+    powerSpectrum, frequenciesFound, time, imageAxis = plt.specgram(audio, Fs=Fs)
     
     plt.title(file_name)
-    plt.xlabel("Duration (seconds)")
+    plt.xlabel("Time (seconds)")
     plt.ylabel("Frequency (hz)")
     plt.show()
+    
+
 
 
 file_name = "Foopy.wav"
 record(file_name)
+basicPlot(file_name)
 spectrogram(file_name)
+
 
 
 
