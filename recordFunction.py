@@ -3,15 +3,7 @@
 Welcome to the recording series
 -------------------------------
 
-
-
-
-
 This program records audio and creates wav files
-Make sure to have a folder named "Wave_Files" in the same directory as this script
-
-
-
 
 
 """
@@ -24,17 +16,8 @@ import matplotlib.pyplot as plt
 
 
 
-# ### Store wav files in new folder ###
-# main_path = os.getcwd()
-# wave_file_path = main_path + "/Wave_Files"
-
-
-fs = 44100  # Sample rate in Hz
-duration = 1  # Length of recording in seconds
-
-
-
-def record(file_name):
+def record(file_name, duration = 10, fs = 44100):
+    ''' Will record audio as wave file'''
     
     
     ### User input to start recording ###
@@ -55,16 +38,26 @@ def record(file_name):
         
         print(file_name, "has been created!")
         
-        
+       
+def spectrogram(file_name):
+    ''' Will display a wav file as a spectrogram'''
+    
+    Fs, aud = wavefile.read(file_name)
+    powerSpectrum, frequenciesFound, time, imageAxis = plt.specgram(aud, Fs=Fs)
+    
+    plt.title(file_name)
+    plt.xlabel("Duration (seconds)")
+    plt.ylabel("Frequency (hz)")
+    plt.show()
 
 
 file_name = "Foopy.wav"
 record(file_name)
+spectrogram(file_name)
 
-# Fs, aud = wavefile.read(file_name)
-# aud = aud[:,0]
-# powerSpectrum, frequenciesFound, time, imageAxis = plt.specgram(aud, Fs=Fs)
-# plt.show()
+
+
+
 
 
 
