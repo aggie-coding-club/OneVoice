@@ -27,7 +27,7 @@ def audioToWAV():
 
     SPEECH_URL = fileName
     SPEECH_FILE = fileName
-def recgonition(SPEECH_FILE):
+def recgonitioner(SPEECH_FILE):
     #See different pipelines
     bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
 
@@ -74,7 +74,7 @@ def recgonition(SPEECH_FILE):
 
 def oneVoice():
     audioGet = threading.Thread(target=audioToWAV(),name="audio")
-    recgonition = threading.Thread(target=recgonition(fileName),name="recgonition")
+    recgonition = threading.Thread(target=recgonitioner(fileName),name="recgonition")
 
     audioGet.start()
     recgonition.start()
