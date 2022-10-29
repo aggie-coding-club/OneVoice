@@ -1,13 +1,3 @@
-"""
--------------------------------
-Welcome to the recording series
--------------------------------
-
-This program records audio and creates wav files
-
-
-"""
-
 import sounddevice as sd
 import scipy.io.wavfile as wavefile
 import os
