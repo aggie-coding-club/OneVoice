@@ -1,6 +1,7 @@
 import IPython
 import torch
 import torchaudio
+
 def transcript(file_location):
     class GreedyCTCDecoder(torch.nn.Module):
         def __init__(self, labels, blank=0):
