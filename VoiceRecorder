@@ -31,7 +31,7 @@ def audioToWAV():
     SPEECH_FILE = fileName
 def recgonitioner(SPEECH_FILE):
     #See different pipelines
-    bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
+    bundle = torchaudio.pipelines.WAV2VEC2_ASR_LARGE_LV60K_960H
 
     #print("Sample Rate:", bundle.sample_rate)
 
