@@ -86,6 +86,7 @@ def oneVoice():
     audioGet.join()
     recgonition.join()
 if __name__ == "__main__":
+    #Used when the GUI does not have a kill switch
     while True:
         if keyboard.is_pressed('space'):
             wordTranscript.close()
