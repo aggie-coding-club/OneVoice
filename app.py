@@ -1,6 +1,8 @@
 import wx
-import wav2txt
+import VoiceRecorder as vr
+
 #import voiceRec
+
 
 class AppFrame(wx.Frame):
 
@@ -36,13 +38,16 @@ class AppFrame(wx.Frame):
         self.Maximize(True)
         self.Show()
 
-    #todo: record audio file and then stop recording when pressed again
+                
+    # todo: record audio file and then stop recording when pressed again
     def Record(self, event):
         if self.record.GetLabel() == chr(9210):
             self.record.SetLabel(chr(9209))
+            vr.oneVoice()
         else:
             self.record.SetLabel(chr(9210))
-        #voiceRec.audioToWAV()
+        # voiceRec.audioToWAV()
+    
 
     # code for creating the file explorer and filtering out any non .wav files
     def GetFile(self, event):
@@ -61,7 +66,8 @@ class AppFrame(wx.Frame):
     def WriteTrans(self, folder_path):
         # trans rights
         self.fileLoc.Label = folder_path
-        self.transcript.Label = wav2txt.transcript(folder_path)
+        # self.transcript.Label = wav2txt.transcript(folder_path)
+        
 
 
 # launches the application
