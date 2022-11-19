@@ -20,7 +20,7 @@ print("HOLD DOWN SPACE BAR FOR 20 SECONDS TO KILL PROGRAM")
 wordTranscript = open(f'{name}.txt',"w+")
 fileName = 'speechToText.wav'
 rate = 44100
-seconds = 10
+seconds = 15
 
 def audioToWAV():
     recording = sd.rec(int(rate*seconds),samplerate=rate,channels=2)
