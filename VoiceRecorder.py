@@ -17,15 +17,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # print(torch.__version__)
 # print(torchaudio.__version__)
 # print(device)
-name = str(datetime.now()).replace(' ', '_').replace('.','-').replace(':','-')
 # print("HOLD DOWN SPACE BAR FOR 20 SECONDS TO KILL PROGRAM")
-wordTranscript = open(f'{name}.txt', "w+")
-fileName = 'speechToText.wav'
-rate = 44100
-seconds = 10
+
 
 
 def audioToWAV():
+    fileName = 'speechToText.wav'
+
+    rate = 44100
+    seconds = 10
     recording = sd.rec(int(rate*seconds), samplerate=rate, channels=2)
     sd.wait()
     write(fileName, rate, recording)  # Return .wav file
@@ -35,6 +35,11 @@ def audioToWAV():
 
 
 def recgonitioner(SPEECH_FILE):
+    name = str(datetime.now()).replace(' ', '_').replace('.','-').replace(':','-')
+
+    wordTranscript = open(f'{name}.txt', "w+")
+
+
     # See different pipelines
     bundle = torchaudio.pipelines.WAV2VEC2_ASR_LARGE_LV60K_960H
 
@@ -84,6 +89,8 @@ def recgonitioner(SPEECH_FILE):
 
 
 def oneVoice():
+    fileName = 'speechToText.wav'
+
     audioGet = threading.Thread(target=audioToWAV(), name="audioGet")
     recgonition = threading.Thread(
         target=recgonitioner(fileName), name="recgonition")
