@@ -22,6 +22,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def audioToWAV():
+    print("audio to wav hit")
     fileName = 'speechToText.wav'
 
     rate = 44100
@@ -35,6 +36,7 @@ def audioToWAV():
 
 
 def recgonitioner(SPEECH_FILE):
+    print("recognitioner hit")
     name = str(datetime.now()).replace(' ', '_').replace('.','-').replace(':','-')
 
     wordTranscript = open(f'{name}.txt', "w+")
@@ -89,6 +91,7 @@ def recgonitioner(SPEECH_FILE):
 
 
 def oneVoice():
+    print("onevoice hit")
     fileName = 'speechToText.wav'
 
     audioGet = threading.Thread(target=audioToWAV(), name="audioGet")
