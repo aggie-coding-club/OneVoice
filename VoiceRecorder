@@ -6,31 +6,43 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import threading
 import keyboard
+from datetime import datetime
+
 
 matplotlib.rcParams["figure.figsize"] = [16.0, 4.8]
 
 torch.random.manual_seed(0)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-print(torch.__version__)
-print(torchaudio.__version__)
-print(device)
-name = input("Enter the filename: ")
-print("HOLD DOWN SPACE BAR FOR 20 SECONDS TO KILL PROGRAM")
-wordTranscript = open(f'{name}.txt',"w+")
-fileName = 'speechToText.wav'
-rate = 44100
-seconds = 15
+# print(torch.__version__)
+# print(torchaudio.__version__)
+# print(device)
+# print("HOLD DOWN SPACE BAR FOR 20 SECONDS TO KILL PROGRAM")
+
+
 
 def audioToWAV():
-    recording = sd.rec(int(rate*seconds),samplerate=rate,channels=2)
+    print("audio to wav hit")
+    fileName = 'speechToText.wav'
+
+    rate = 44100
+    seconds = 10
+    recording = sd.rec(int(rate*seconds), samplerate=rate, channels=2)
     sd.wait()
-    write(fileName,rate,recording) #Return .wav file
+    write(fileName, rate, recording)  # Return .wav file
 
     SPEECH_URL = fileName
     SPEECH_FILE = fileName
+
+
 def recgonitioner(SPEECH_FILE):
-    #See different pipelines
+    print("recognitioner hit")
+    name = str(datetime.now()).replace(' ', '_').replace('.','-').replace(':','-')
+
+    wordTranscript = open(f'{name}.txt', "w+")
+
+
+    # See different pipelines
     bundle = torchaudio.pipelines.WAV2VEC2_ASR_LARGE_LV60K_960H
 
     #print("Sample Rate:", bundle.sample_rate)
@@ -39,7 +51,7 @@ def recgonitioner(SPEECH_FILE):
 
     model = bundle.get_model().to(device)
 
-    #print(model.__class__)
+    # print(model.__class__)
 
     IPython.display.Audio(SPEECH_FILE)
 
@@ -47,7 +59,8 @@ def recgonitioner(SPEECH_FILE):
     waveform = waveform.to(device)
 
     if sample_rate != bundle.sample_rate:
-        waveform = torchaudio.functional.resample(waveform, sample_rate, bundle.sample_rate)
+        waveform = torchaudio.functional.resample(
+            waveform, sample_rate, bundle.sample_rate)
 
     with torch.inference_mode():
         features, _ = model.extract_features(waveform)
@@ -55,7 +68,7 @@ def recgonitioner(SPEECH_FILE):
     with torch.inference_mode():
         emission, _ = model(waveform)
 
-    #Get a new decoder
+    # Get a new decoder
     class Decoder(torch.nn.Module):
         def __init__(self, labels, blank=0):
             super().__init__()
@@ -76,20 +89,26 @@ def recgonitioner(SPEECH_FILE):
     print(transcript)
     IPython.display.Audio(SPEECH_FILE)
 
+
 def oneVoice():
-    audioGet = threading.Thread(target=audioToWAV(),name="audioGet")
-    recgonition = threading.Thread(target=recgonitioner(fileName),name="recgonition")
+    print("onevoice hit")
+    fileName = 'speechToText.wav'
+
+    audioGet = threading.Thread(target=audioToWAV(), name="audioGet")
+    recgonition = threading.Thread(
+        target=recgonitioner(fileName), name="recgonition")
 
     audioGet.start()
     recgonition.start()
 
     audioGet.join()
     recgonition.join()
-if __name__ == "__main__":
-    #Used when the GUI does not have a kill switch
-    while True:
-        if keyboard.is_pressed('space'):
-            wordTranscript.close()
-            exit()
-        else:
-            oneVoice()
+
+
+# if __name__ == "__main__":
+#    while True:
+#        if keyboard.is_pressed('space'):
+#            wordTranscript.close()
+#            exit()
+#        else:
+#            oneVoice()
